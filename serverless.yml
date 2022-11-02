@@ -1,0 +1,22 @@
+service: robber-language
+provider:
+  name: aws
+  region: eu-north-1
+  runtime: java11
+  timeout: 10
+package:
+  artifact: target/robberlanguage-0.0.1-SNAPSHOT-aws.jar
+functions:
+  encode:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: encode
+  encode2:
+    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
+    events:
+      - http: 
+          path: speak-robber
+          method: post
+          cors: true
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: encode2
